@@ -23,6 +23,21 @@ const keysHeld: {[key: string]: boolean} = {
     "Shift": false,
 }
 
+function MovementButton(props: {text: string, keyCharacter: " " | "a" | "d" | "w" | "s" | "Shift", startMovement: (key: string) => void, endMovement: (key: string) => void}) {
+    const key = props.keyCharacter
+    const startMovement = props.startMovement
+    const endMovement = props.endMovement
+    const text = props.text
+
+    return (
+        <button onMouseDown={() => props.startMovement(key)} onMouseUp={() => endMovement(key)} onTouchStart={() => startMovement(key)} onTouchEnd={() => endMovement(key)} onContextMenu={(event) => {
+            event.preventDefault()
+        }}>
+            {text}
+        </button>
+    )
+}
+
 function Movement() {
     const didRender = useRef(false)
     const [, renderCanvas] = useContext(RenderCanvas)
@@ -72,25 +87,12 @@ function Movement() {
 
     return (
         <div>
-            <button onMouseDown={() => StartMovement(" ")} onMouseUp={() => EndMovement(" ")}>
-                Up
-            </button>
-            <button onMouseDown={() => StartMovement("Shift")} onMouseUp={() => EndMovement("Shift")}>
-                Down
-            </button>
-            <button onMouseDown={() => StartMovement("a")} onMouseUp={() => EndMovement("a")}>
-                Left
-            </button>
-            <button onMouseDown={() => StartMovement("d")} onMouseUp={() => EndMovement("d")}>
-                Right
-            </button>
-            <button onMouseDown={() => StartMovement("w")} onMouseUp={() => EndMovement("w")}>
-                Forward
-            </button>
-            <button onMouseDown={() => StartMovement("s")} onMouseUp={() => EndMovement("s")}>
-                Back
-            </button>
-            
+            <MovementButton text='Up' keyCharacter=' ' startMovement={StartMovement} endMovement={EndMovement} />
+            <MovementButton text='Down' keyCharacter='Shift' startMovement={StartMovement} endMovement={EndMovement} />
+            <MovementButton text='Left' keyCharacter='a' startMovement={StartMovement} endMovement={EndMovement} />
+            <MovementButton text='Right' keyCharacter='d' startMovement={StartMovement} endMovement={EndMovement} />
+            <MovementButton text='Forward' keyCharacter='w' startMovement={StartMovement} endMovement={EndMovement} />
+            <MovementButton text='Back' keyCharacter='s' startMovement={StartMovement} endMovement={EndMovement} />
             <br />
 
             <p>W / A / S / D / Space / Left Shift</p>
