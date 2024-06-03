@@ -20,7 +20,8 @@ function Canvas<T extends HTMLCanvasElement>(props: CanvasHTMLAttributes<T>) {
         const context = canvas.getContext('2d')
 
         if (context) {
-            context.reset()
+            // context.reset()
+            context.clearRect(0, 0, canvas.width, canvas.height);
             context.lineWidth = 1
             context.strokeStyle = "#fff"
             
