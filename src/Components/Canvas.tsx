@@ -17,22 +17,26 @@ function Canvas<T extends HTMLCanvasElement>(props: CanvasHTMLAttributes<T>) {
         canvas.width = width
         canvas.height = height
         
-        const context = canvas.getContext('2d') as CanvasRenderingContext2D
+        const context = canvas.getContext('2d')
 
-        context.reset()
-        context.lineWidth = 1
-        context.strokeStyle = "#fff"
-        
-        for (let twoDObject of GetScreenSpaceObjects(FOV, width, height, zNear, zFar)) {
-            // console.log(twoDObject)
-            // console.log(Camera[2])
-            for (let edge of twoDObject.Edges) {
-                context.beginPath()
-                context.lineTo(twoDObject.Vertices[edge[0]][0], twoDObject.Vertices[edge[0]][1])
-                context.lineTo(twoDObject.Vertices[edge[1]][0], twoDObject.Vertices[edge[1]][1])
-                context.closePath()
-                context.stroke()
+        if (context) {
+            context.reset()
+            context.lineWidth = 1
+            context.strokeStyle = "#fff"
+            
+            for (let twoDObject of GetScreenSpaceObjects(FOV, width, height, zNear, zFar)) {
+                // console.log(twoDObject)
+                // console.log(Camera[2])
+                for (let edge of twoDObject.Edges) {
+                    context.beginPath()
+                    context.lineTo(twoDObject.Vertices[edge[0]][0], twoDObject.Vertices[edge[0]][1])
+                    context.lineTo(twoDObject.Vertices[edge[1]][0], twoDObject.Vertices[edge[1]][1])
+                    context.closePath()
+                    context.stroke()
+                }
             }
+        } else {
+            console.warn("Error getting context")
         }
     }, [updateValue])
 
